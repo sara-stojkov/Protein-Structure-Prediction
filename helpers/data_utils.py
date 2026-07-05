@@ -11,7 +11,8 @@ SS3_TO_IDX = {"H": 0, "E": 1, "C": 2}
 
 def load_csv_dataset(path):
     df = pd.read_csv(path)
-    df = df[["seq", "sst3", "len"]].copy()
+    df = df[["seq", "sst3", "len_x"]].copy()
+    df = df.rename(columns={"len_x": "len"})
     df = df.dropna(subset=["seq", "sst3"])
     return df
 

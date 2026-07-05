@@ -9,9 +9,9 @@ def train_model(hyperparams, X_train, y_train, mask_train,
                  X_val, y_val, mask_val, max_epochs=5, device="cpu",
                  input_dim=21, return_model=False):
     """
-    hyperparams: dict sa ključevima:
+    hyperparams: dictionary with keys:
         n_filters, kernel_size, lstm_units, dropout, lr, batch_size
-    Vraća: val_q3_accuracy (float), ili (float, model) ako return_model=True
+    Returns: val_q3_accuracy (float), or (float, model) if return_model=True
     """
     model = CNNLSTMModel(
         input_dim=input_dim,
@@ -45,7 +45,7 @@ def train_model(hyperparams, X_train, y_train, mask_train,
             optimizer.step()
             epoch_loss += loss.item()
 
-    # Evaluacija na validaciji
+    # evaluate on validation set
     model.eval()
     with torch.no_grad():
         X_val_t = torch.tensor(X_val, dtype=torch.float32).to(device)
