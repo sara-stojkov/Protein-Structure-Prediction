@@ -11,7 +11,7 @@ class CNNLSTMModel(nn.Module):
             in_channels=input_dim,
             out_channels=n_filters,
             kernel_size=kernel_size,
-            padding=kernel_size // 2  # "same" padding, čuva seq_len
+            padding=kernel_size // 2  # "same" padding, keeps seq_len
         )
         self.bn = nn.BatchNorm1d(n_filters)
         self.relu = nn.ReLU()
@@ -25,16 +25,16 @@ class CNNLSTMModel(nn.Module):
         )
         self.dropout2 = nn.Dropout(dropout)
 
-        self.fc = nn.Linear(lstm_units * 2, n_classes)  # *2 zbog bidirectional
+        self.fc = nn.Linear(lstm_units * 2, n_classes)  # *2 because of bidirectional
 
     def forward(self, x):
         # x: (batch, seq_len, input_dim)
-        x = x.transpose(1, 2)          # -> (batch, input_dim, seq_len) za Conv1d
+        x = x.transpose(1, 2)          # -> (batch, input_dim, seq_len) for Conv1d
         x = self.conv(x)
         x = self.bn(x)
         x = self.relu(x)
         x = self.dropout1(x)
-        x = x.transpose(1, 2)          # -> (batch, seq_len, n_filters) za LSTM
+        x = x.transpose(1, 2)          # -> (batch, seq_len, n_filters) for LSTM
 
         x, _ = self.lstm(x)            # -> (batch, seq_len, lstm_units*2)
         x = self.dropout2(x)

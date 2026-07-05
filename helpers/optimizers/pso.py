@@ -2,21 +2,20 @@ import numpy as np
 from helpers.train import train_model
 from helpers.optimizers.random_search import PARAM_RANGES
 
-# Kontinualni prostor pretrage: [n_filters, kernel_size, lstm_units, dropout, log10(lr), batch_size_idx]
 BOUNDS = np.array([
     PARAM_RANGES["n_filters"],
     (3, 7),                                  # kernel_size
     PARAM_RANGES["lstm_units"],
     PARAM_RANGES["dropout"],
     (np.log10(PARAM_RANGES["lr"][0]), np.log10(PARAM_RANGES["lr"][1])),
-    (0, len(PARAM_RANGES["batch_size_options"]) - 1),  # index u listu batch_size_options
+    (0, len(PARAM_RANGES["batch_size_options"]) - 1),  
 ], dtype=np.float64)
 
 
 def position_to_config(pos):
     n_filters = int(np.clip(pos[0], *BOUNDS[0]))
     kernel_size = int(np.clip(round(pos[1]), *BOUNDS[1]))
-    if kernel_size % 2 == 0:  # kernel mora biti neparan zbog "same" padding-a u modelu
+    if kernel_size % 2 == 0:  
         kernel_size += 1
     lstm_units = int(np.clip(pos[2], *BOUNDS[2]))
     dropout = float(np.clip(pos[3], *BOUNDS[3]))
@@ -65,7 +64,6 @@ def pso(n_particles, n_iterations, X_train, y_train, mask_train,
         history.append(gbest_score)
         print(f"[PSO] Iter {it+1}/{n_iterations} | best so far: {gbest_score:.4f}")
 
-        # Ažuriranje brzine i pozicije
         r1 = np.random.rand(n_particles, dim)
         r2 = np.random.rand(n_particles, dim)
         velocities = (
@@ -75,7 +73,6 @@ def pso(n_particles, n_iterations, X_train, y_train, mask_train,
         )
         positions = positions + velocities
 
-        # drži pozicije unutar granica
         for d in range(dim):
             positions[:, d] = np.clip(positions[:, d], BOUNDS[d][0], BOUNDS[d][1])
 

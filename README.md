@@ -198,14 +198,14 @@ jupyter notebook PredikcijaStruktureProteina.ipynb
 
 ### Finalni model — evaluacija na CB513
 
-CB513 Q3 accuracy: 0.7096
+CB513 Q3 accuracy: 0.7199
 
 | Metrika | Vrednost |
 |---|---|
 | F1 tačnost (test) | |
-| F1 - H | 0.756 |
-| F1 - E | 0.605 |
-| F1 - C | 0.72 |
+| F1 - H | 0.767 |
+| F1 - E | 0.646 |
+| F1 - C | 0.722 |
 
 ![confusion-matrix](visuals/cb513-confusion-matrix.png)
 

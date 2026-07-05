@@ -46,8 +46,6 @@ def bayesian_optimization(n_calls, X_train, y_train, mask_train,
     }
     best_acc = -result.fun
 
-    # history do sad je "trenutna" tačnost po evaluaciji; za krivu konvergencije
-    # nam treba "najbolja do sad" (running max) da bude uporedivo sa GA/PSO
     running_best = np.maximum.accumulate(history)
 
     return best_config, best_acc, running_best.tolist()
