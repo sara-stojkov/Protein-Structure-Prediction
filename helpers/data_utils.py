@@ -54,23 +54,17 @@ def dataframe_to_tensors(df, max_len):
     return X, y, mask
 
 def load_cb513(path, max_len=400):
-    """
-    parses CB513.npy (format Zhou & Troyanskaya: 700 pozicija x 57 vrednosti po proteinu)
-    returns X (n, max_len, 21), y (n, max_len), mask (n, max_len)
-    """
     raw = np.load(path)
-
     if raw.ndim == 2:
         raw = raw.reshape(-1, 700, 57)
     elif raw.ndim != 3:
-        raise ValueError(f"Neočekivan oblik CB513 fajla: {raw.shape}")
+        raise ValueError(f"Unexpected CB513 shape: {raw.shape}")
 
     n_proteins, seq_len_raw, n_features = raw.shape
-    print(f"CB513 učitan: {n_proteins} proteina, {seq_len_raw} pozicija, {n_features} vrednosti po poziciji")
+    print(f"CB513 loaded: {n_proteins} proteins, {seq_len_raw} positions, {n_features} values per position")
 
-    # SST-8 sequence in this format (standard Zhou&Troyanskaya): L B E G I H S T + "no seq"
+    CB513_AA_ORDER = ['A','C','E','D','G','F','I','H','K','M','L','N','Q','P','S','R','T','W','V','Y','X']
     SST8_ORDER = ["L", "B", "E", "G", "I", "H", "S", "T"]
-    # Mapping 8->3 classes (same logic as with csv files): H/G/I -> H, E/B -> E, L/S/T -> C
     SST8_TO_3 = {
         "H": "H", "G": "H", "I": "H",
         "E": "E", "B": "E",
@@ -82,19 +76,22 @@ def load_cb513(path, max_len=400):
     mask = np.zeros((n_proteins, max_len), dtype=np.float32)
 
     for i in range(n_proteins):
-        aa_onehot = raw[i, :, 0:21]       # (700, 21)
-        ss_onehot = raw[i, :, 22:30]      # (700, 8)
+        aa_onehot_raw = raw[i, :, 0:22]
+        ss_onehot_8 = raw[i, :, 22:30]   
 
-        # "actual" position = has exactly one 1 in aa_onehot (not all zeros -> padding/no-seq)
-        valid_positions = aa_onehot.sum(axis=1) > 0
+        valid_positions = ss_onehot_8.sum(axis=1) > 0
         actual_len = int(valid_positions.sum())
-
         use_len = min(actual_len, max_len)
 
-        X[i, :use_len, :21] = aa_onehot[:use_len]
+        remapped = np.zeros((use_len, N_AA_CLASSES), dtype=np.float32)
+        for cb_idx, aa in enumerate(CB513_AA_ORDER):
+            target_idx = UNK_IDX if aa == "X" else AA_TO_IDX[aa]
+            remapped[:, target_idx] = aa_onehot_raw[:use_len, cb_idx]
+
+        X[i, :use_len, :] = remapped
         mask[i, :use_len] = 1.0
 
-        ss_idx = ss_onehot[:use_len].argmax(axis=1)  # indeks SST-8 klase po poziciji
+        ss_idx = ss_onehot_8[:use_len].argmax(axis=1)
         for pos in range(use_len):
             sst8_letter = SST8_ORDER[ss_idx[pos]]
             sst3_letter = SST8_TO_3[sst8_letter]

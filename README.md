@@ -68,14 +68,13 @@ Na osnovu analize distribucije dužina (medijana ≈ 229, 75. percentil ≈ 342,
 
 ### Eksplorativna analiza podataka (EDA)
 
-> 📎 *Ubaci ovde grafike iz notebook-a:*
-> - *Histogram distribucije dužina sekvenci*
-> - *Distribucija klasa sekundarne strukture (H/E/C) u celom datasetu*
-> - *Distribucija dužina proteina po dominantnoj sekundarnoj strukturi*
-> - *Frekvencija aminokiselina u datasetu*
-> - *Primer jedne sekvence sa obojenom sekundarnom strukturom*
+![class-distribution](visuals/pss-class-distribution.png)
 
-**Ključan nalaz:** klasa C (coil) je dominantna (~40-45% ostataka), što je uzeto u obzir pri evaluaciji modela (praćenje F1 skora po klasi, ne samo ukupne Q3 tačnosti).
+![sequence-length](visuals/sequence-length-distribution-pss.png)
+
+![aminoacid-frequency](visuals/amino-acids-frequency.png)
+
+**Ključno zapažanje:** klasa C (coil) je dominantna (~42% ostataka), što je uzeto u obzir pri evaluaciji modela (praćenje F1 skora po klasi, ne samo ukupne Q3 tačnosti).
 
 ---
 
@@ -98,7 +97,7 @@ Izlaz (batch, seq_len, 3)  →  raspodela verovatnoća H/E/C po ostatku
 ```
 
 **Obrazloženje arhitekture:**
-- **Konvolutivni blok** lokalno agregira kontekst susednih aminokiselina (prozor veličine 3–7), efikasno izdvajajući lokalne strukturne motive.
+- **Konvolutivni blok** lokalno agregira kontekst susednih aminokiselina (prozor veličine 3-7), efikasno izdvajajući lokalne strukturne motive.
 - **BiLSTM** modeluje dugoročne zavisnosti u sekvenci u oba smera — sekundarna struktura pojedinačnog ostatka zavisi i od udaljenijeg konteksta, ne samo neposrednih suseda.
 - **Dropout** između slojeva sprečava overfitting.
 
@@ -151,7 +150,8 @@ Protein-Structure-Prediction/
 │       └── bayesian_opt.py
 │
 ├── docs/
-│   └── RI_Specifikacija_Sara_Stojkov.pdf   # originalni predlog projekta
+│   ├── RI_Specifikacija_Sara_Stojkov.pdf   # originalni predlog projekta
+|   └── RI_Prezentacija_Sara_Stojkov.pdf   # prezentacija projekta za odbranu
 │
 ├── PredikcijaStruktureProteina.ipynb   # glavni notebook (poziva helpers/)
 ├── requirements.txt
@@ -183,7 +183,6 @@ jupyter notebook PredikcijaStruktureProteina.ipynb
 
 ### Poređenje optimizacionih algoritama
 
-TO-DO dodati sliku nakon što se sve izvrši
 
 | Metoda | Najbolja Q3 tačnost (validacija) | Vreme izvršavanja |
 |---|---|---|
@@ -192,22 +191,23 @@ TO-DO dodati sliku nakon što se sve izvrši
 | PSO | 0.7139 | 89 min |
 | Bayesova optimizacija | 0.7148 | 67 min |
 
+![optimization-comparison](visuals/optimization-comparison.png)
+
 **Pobednička konfiguracija:** *[Genetic Algorithm] config: {'n_filters': 92, 'kernel_size': np.int64(5), 'lstm_units': 179, 'dropout': 0.2422478414286939, 'lr': 0.0016666563380906422, 'batch_size': np.int64(16)}
 *
 
 ### Finalni model — evaluacija na CB513
 
->  *TO-DO*
-> - *Q3 tačnost na CB513*
-> - *F1 skor po klasi (H, E, C)*
-> - *Konfuzionu matricu (plot_confusion_matrix)*
+CB513 Q3 accuracy: 0.7096
 
 | Metrika | Vrednost |
 |---|---|
-| Q3 tačnost (test) | |
-| F1 - H | |
-| F1 - E | |
-| F1 - C | |
+| F1 tačnost (test) | |
+| F1 - H | 0.756 |
+| F1 - E | 0.605 |
+| F1 - C | 0.72 |
+
+![confusion-matrix](visuals/cb513-confusion-matrix.png)
 
 ---
 

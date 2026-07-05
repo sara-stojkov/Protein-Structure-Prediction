@@ -16,7 +16,7 @@ def plot_convergence(histories_dict, title="Comparison of optimization methods b
     plt.show()
 
 
-def plot_confusion_matrix(cm, class_names=("H", "E", "C"), title="Konfuziona matrica (CB513)"):
+def plot_confusion_matrix(cm, class_names=("H", "E", "C"), title="Confusion matrix - final model on CB513"):
     plt.figure(figsize=(5, 4))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
                 xticklabels=class_names, yticklabels=class_names)
