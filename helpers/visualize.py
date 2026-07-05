@@ -3,7 +3,7 @@ import seaborn as sns
 import numpy as np
 
 
-def plot_convergence(histories_dict, title="Poređenje konvergencije optimizacionih algoritama"):
+def plot_convergence(histories_dict, title="Comparison of optimization methods by Q3 accuracy"):
     """histories_dict: {"GA": [...], "PSO": [...], "Bayes": [...], "Random Search": [...]}"""
     plt.figure(figsize=(8, 5))
     for name, history in histories_dict.items():
