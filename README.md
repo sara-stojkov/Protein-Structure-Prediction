@@ -187,12 +187,13 @@ TO-DO dodati sliku nakon što se sve izvrši
 
 | Metoda | Najbolja Q3 tačnost (validacija) | Vreme izvršavanja |
 |---|---|---|
-| Random Search | | |
-| Genetski algoritam | | |
-| PSO | | |
-| Bayesova optimizacija | | |
+| Random Search | 0.7185 | 60 min |
+| Genetski algoritam | 0.7197 | 75 min |
+| PSO | 0.7139 | 89 min |
+| Bayesova optimizacija | 0.7148 | 67 min |
 
-**Pobednička konfiguracija:** *config={'n_filters': 41, 'kernel_size': np.int64(5), 'lstm_units': 180, 'dropout': 0.14550527010674197, 'lr': 0.008433564743139528, 'batch_size': np.int64(16)}*
+**Pobednička konfiguracija:** *[Genetic Algorithm] config: {'n_filters': 92, 'kernel_size': np.int64(5), 'lstm_units': 179, 'dropout': 0.2422478414286939, 'lr': 0.0016666563380906422, 'batch_size': np.int64(16)}
+*
 
 ### Finalni model — evaluacija na CB513
 
@@ -204,9 +205,9 @@ TO-DO dodati sliku nakon što se sve izvrši
 | Metrika | Vrednost |
 |---|---|
 | Q3 tačnost (test) | |
-| F1 — H | |
-| F1 — E | |
-| F1 — C | |
+| F1 - H | |
+| F1 - E | |
+| F1 - C | |
 
 ---
 
