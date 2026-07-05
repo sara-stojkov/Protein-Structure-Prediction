@@ -164,7 +164,7 @@ Protein-Structure-Prediction/
 
 ```bash
 # kloniraj repozitorijum
-git clone <link-ka-repozitorijumu>
+git clone https://github.com/sara-stojkov/Protein-Structure-Prediction.git
 cd Protein-Structure-Prediction
 
 # instaliraj zavisnosti
