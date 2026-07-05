@@ -2,9 +2,9 @@ import numpy as np
 from helpers.train import train_model
 
 PARAM_RANGES = {
-    "n_filters": (16, 128),
+    "n_filters": (16, 64),
     "kernel_size": (3, 7),
-    "lstm_units": (32, 256),
+    "lstm_units": (32, 128),
     "dropout": (0.1, 0.5),
     "lr": (1e-4, 1e-2),          # log-scale
     "batch_size_options": [16, 32, 64],
