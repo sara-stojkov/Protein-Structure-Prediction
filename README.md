@@ -238,11 +238,11 @@ Sve navedene izmene ne menjaju suštinsku metodologiju i pristup definisan u ori
 ## 10. Tehnologije
 
 - **Python 3.10+**
-- **PyTorch** — implementacija i treniranje CNN+LSTM arhitekture
-- **NumPy** — manipulacija nizovima, implementacija GA i PSO od nule
-- **scikit-learn** — metrike evaluacije (F1, konfuziona matrica)
-- **scikit-optimize** — Bayesova optimizacija (`gp_minimize`)
-- **Matplotlib / Seaborn** — vizualizacija
+- **PyTorch** - implementacija i treniranje CNN+LSTM arhitekture
+- **NumPy** - manipulacija nizovima, implementacija GA i PSO od nule
+- **scikit-learn** - metrike evaluacije (F1, konfuziona matrica)
+- **scikit-optimize** - Bayesova optimizacija (`gp_minimize`)
+- **Matplotlib / Seaborn** - vizualizacija
 - **Jupyter Notebook**
 
 ---
