@@ -32,7 +32,7 @@ def bayesian_optimization(n_calls, X_train, y_train, mask_train,
                            X_val, y_val, mask_val, max_epochs=max_epochs, device=device)
         history.append(acc)
         print(f"[Bayes] eval {len(history)}/{n_calls} | acc={acc:.4f} | config={config}")
-        return -acc  # gp_minimize minimizuje, mi maksimizujemo tačnost
+        return -acc  # gp_minimize minimizes, while we maximize accuracy
 
     result = gp_minimize(
         objective, SEARCH_SPACE,

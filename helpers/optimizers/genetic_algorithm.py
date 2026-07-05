@@ -39,7 +39,7 @@ def tournament_selection(population, fitnesses, k=3):
 def genetic_algorithm(pop_size, n_generations, X_train, y_train, mask_train,
                        X_val, y_val, mask_val, max_epochs=3, device="cpu",
                        mutation_rate=0.3, elitism=1):
-    # 1. Inicijalizacija populacije
+    # 1. initialize population
     population = [sample_random_config() for _ in range(pop_size)]
     fitnesses = [
         train_model(cfg, X_train, y_train, mask_train, X_val, y_val, mask_val,
@@ -54,11 +54,11 @@ def genetic_algorithm(pop_size, n_generations, X_train, y_train, mask_train,
     print(f"[GA] Gen 0 | best so far: {best_overall_acc:.4f}")
 
     for gen in range(1, n_generations + 1):
-        # 2. Elitizam: zadrži najbolje jedinke direktno
+        # 2. elitism: keep the best individuals
         sorted_idx = np.argsort(fitnesses)[::-1]
         new_population = [population[i] for i in sorted_idx[:elitism]]
 
-        # 3. Popuni ostatak populacije selekcijom + ukrštanjem + mutacijom
+        # 3. fill the rest of the new population with offspring
         while len(new_population) < pop_size:
             parent1 = tournament_selection(population, fitnesses)
             parent2 = tournament_selection(population, fitnesses)
